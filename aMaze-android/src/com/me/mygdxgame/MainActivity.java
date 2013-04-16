@@ -1,4 +1,4 @@
-package com.theory.aMaze;
+package com.me.mygdxgame;
 
 import android.os.Bundle;
 
@@ -13,6 +13,6 @@ public class MainActivity extends AndroidApplication {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = false;
         
-        initialize(new aMaze(), cfg);
+        initialize(new MyGdxGame(), cfg);
     }
 }

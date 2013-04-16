@@ -1,6 +1,6 @@
-package com.theory.aMaze.client;
+package com.me.mygdxgame.client;
 
-import com.theory.aMaze.aMaze;
+import com.me.mygdxgame.MyGdxGame;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
@@ -14,6 +14,6 @@ public class GwtLauncher extends GwtApplication {
 
 	@Override
 	public ApplicationListener getApplicationListener () {
-		return new aMaze();
+		return new MyGdxGame();
 	}
 }
