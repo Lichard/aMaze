@@ -8,8 +8,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "aMaze";
 		cfg.useGL20 = false;
-		cfg.width = 480;
-		cfg.height = 320;
+		cfg.width = 700;
+		cfg.height = 480;
 		
 		new LwjglApplication(new MyGdxGame(), cfg);
 	}
