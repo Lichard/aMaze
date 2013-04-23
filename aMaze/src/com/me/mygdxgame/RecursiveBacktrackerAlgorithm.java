@@ -62,20 +62,20 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 			//check whether there is a free neighbor
 			for (int i = 0; i < 4; i++){
 				switch(i){
-				case MazeMap.UP:
+				case UP:
 					if(currentCell.y > 0 && !visited[currentCell.x][currentCell.y-1])
 						neighbors[freeNeighborCount++] = i;
 					break;
-				case MazeMap.RIGHT:
+				case RIGHT:
 					if(currentCell.x < width-1 && !visited[currentCell.x + 1][currentCell.y])
 						neighbors[freeNeighborCount++] = i;
 					break;
-				case MazeMap.DOWN:
+				case DOWN:
 					if(currentCell.y < height-1 && !visited[currentCell.x][currentCell.y+1])
 						neighbors[freeNeighborCount++] = i;
 					break;
-				case MazeMap.LEFT:
-					if(currentCell.x > 0 && !visited[currentCell.y-1][currentCell.y])
+				case LEFT:
+					if(currentCell.y > 0 && !visited[currentCell.y-1][currentCell.y])
 						neighbors[freeNeighborCount++] = i;
 					break;
 				}
@@ -84,27 +84,27 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 			if(freeNeighborCount > 0){
 
 				switch(neighbors[rand.nextInt(freeNeighborCount)]){
-				case MazeMap.UP:
+				case UP:
 					map.set(currentCell.x, currentCell.y, MazeMap.UP);
 					currentCell.y--;
 					stack.push(currentCell);
 					break;
-				case MazeMap.RIGHT:
+				case RIGHT:
 					//add draw right part here
 					map.set(currentCell.x, currentCell.y, MazeMap.RIGHT);
 					currentCell.x++;
 					stack.push(currentCell);
 					break;
-				case MazeMap.DOWN:
+				case DOWN:
 					//add draw down part here
 					map.set(currentCell.x, currentCell.y, MazeMap.DOWN);
 					currentCell.y++;
 					stack.push(currentCell);
 					break;
-				case MazeMap.LEFT:
+				case LEFT:
 					//add draw left part here
 					map.set(currentCell.x, currentCell.y, MazeMap.LEFT);
-					currentCell.x--;
+					currentCell.x--;//CAN FALL OFF OF MAP. Needs fix.
 					stack.push(currentCell);
 					break;
 				}
