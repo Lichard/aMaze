@@ -47,15 +47,12 @@ public class MyGdxGame implements ApplicationListener {
 		incomplete = true;
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
-		xsize = 10;
-		ysize = 10;
-		map = new MazeMap(xsize, ysize);
-		algo = new RecursiveBacktrackerAlgorithm(map);
+		setSize(10,10);
+		setAlgorithm(1);//1 is recursive, 2 is prim
 
 		camera = new OrthographicCamera(w, h);
 		cameraUI = new OrthographicCamera(220, 480);
 		camera.translate(w / 2, h / 2);
-		batch = new SpriteBatch();
 
 		lineRenderer = new ShapeRenderer();
 		squareRenderer = new ShapeRenderer();
@@ -64,7 +61,6 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void dispose() {
-		batch.dispose();
 	}
 
 	@Override
