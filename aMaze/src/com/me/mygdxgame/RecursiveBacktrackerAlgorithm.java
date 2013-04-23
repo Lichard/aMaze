@@ -64,18 +64,26 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 				case UP:
 					if(currentCell.y > 0 && !visited[currentCell.x][currentCell.y-1])
 						neighbors[freeNeighborCount++] = i;
+						//CHANGE MADE HERE 4/23/13
+						visited[currentCell.x][currentCell.y-1] = true;
 					break;
 				case RIGHT:
 					if(currentCell.x < width-1 && !visited[currentCell.x + 1][currentCell.y])
 						neighbors[freeNeighborCount++] = i;
+						//CHANGE MADE HERE 4/23/13
+						visited[currentCell.x+1][currentCell.y] = true;
 					break;
 				case DOWN:
 					if(currentCell.y < height-1 && !visited[currentCell.x][currentCell.y+1])
 						neighbors[freeNeighborCount++] = i;
+						//CHANGE MADE HERE 4/23/13
+						visited[currentCell.x][currentCell.y+1] = true;
 					break;
 				case LEFT:
 					if(currentCell.x > 0 && !visited[currentCell.x-1][currentCell.y])
 						neighbors[freeNeighborCount++] = i;
+						//CHANGE MADE HERE 4/23/13
+						visited[currentCell.x-1][currentCell.y] = true;
 					break;
 				}
 			}
