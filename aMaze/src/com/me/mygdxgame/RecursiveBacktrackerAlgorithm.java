@@ -2,6 +2,7 @@ package com.me.mygdxgame;
 
 import java.util.Stack;
 
+
 public class RecursiveBacktrackerAlgorithm extends Algorithm {
 	
 	//The fields that contain the starting position of the maze generation
@@ -22,12 +23,9 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 	//private Random rand = new Random();
 
 	//constructor with random start position
-	public RecursiveBacktrackerAlgorithm(int[][] matrix){
-		startX = rand.nextInt(matrix.length-1);
-		startY = rand.nextInt(matrix[0].length-1);
-		maze = matrix;
-		width = matrix.length;
-		height = matrix[0].length;
+	public RecursiveBacktrackerAlgorithm(MazeMap map){
+		super(map);
+
 		visited = new boolean[width][height];
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
@@ -39,12 +37,8 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 		stack.push(startPosition);
 	}
 	//constructor with specific start position
-	public RecursiveBacktrackerAlgorithm(int[][] matrix, int x, int y){
-		startX = x;
-		startY = y;
-		maze = matrix;
-		width = matrix.length;
-		height = matrix[0].length;
+	public RecursiveBacktrackerAlgorithm(MazeMap map, int x, int y){
+		super(map);
 		visited = new boolean[width][height];
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
@@ -68,20 +62,20 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 			//check whether there is a free neighbor
 			for (int i = 0; i < 4; i++){
 				switch(i){
-				case UP:
-					if(currentCell.ycoordinate > 0 && !visited[currentCell.xcoordinate][currentCell.ycoordinate-1])
+				case MazeMap.UP:
+					if(currentCell.y > 0 && !visited[currentCell.x][currentCell.y-1])
 						neighbors[freeNeighborCount++] = i;
 					break;
-				case RIGHT:
-					if(currentCell.xcoordinate < width-1 && !visited[currentCell.xcoordinate + 1][currentCell.ycoordinate])
+				case MazeMap.RIGHT:
+					if(currentCell.x < width-1 && !visited[currentCell.x + 1][currentCell.y])
 						neighbors[freeNeighborCount++] = i;
 					break;
-				case DOWN:
-					if(currentCell.ycoordinate < height-1 && !visited[currentCell.xcoordinate][currentCell.ycoordinate+1])
+				case MazeMap.DOWN:
+					if(currentCell.y < height-1 && !visited[currentCell.x][currentCell.y+1])
 						neighbors[freeNeighborCount++] = i;
 					break;
-				case LEFT:
-					if(currentCell.xcoordinate > 0 && !visited[currentCell.xcoordinate-1][currentCell.ycoordinate])
+				case MazeMap.LEFT:
+					if(currentCell.x > 0 && !visited[currentCell.y-1][currentCell.y])
 						neighbors[freeNeighborCount++] = i;
 					break;
 				}
@@ -90,24 +84,27 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 			if(freeNeighborCount > 0){
 
 				switch(neighbors[rand.nextInt(freeNeighborCount)]){
-				case UP:
-					//add draw up part here
-					currentCell.ycoordinate--;
+				case MazeMap.UP:
+					map.set(currentCell.x, currentCell.y, MazeMap.UP);
+					currentCell.y--;
 					stack.push(currentCell);
 					break;
-				case RIGHT:
+				case MazeMap.RIGHT:
 					//add draw right part here
-					currentCell.xcoordinate++;
+					map.set(currentCell.x, currentCell.y, MazeMap.RIGHT);
+					currentCell.x++;
 					stack.push(currentCell);
 					break;
-				case DOWN:
+				case MazeMap.DOWN:
 					//add draw down part here
-					currentCell.ycoordinate++;
+					map.set(currentCell.x, currentCell.y, MazeMap.DOWN);
+					currentCell.y++;
 					stack.push(currentCell);
 					break;
-				case LEFT:
+				case MazeMap.LEFT:
 					//add draw left part here
-					currentCell.xcoordinate--;
+					map.set(currentCell.x, currentCell.y, MazeMap.LEFT);
+					currentCell.x--;
 					stack.push(currentCell);
 					break;
 				}
@@ -122,12 +119,7 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 		else{
 			return false;
 		}
+	}
 
-	}
-	@Override
-	public int[][] getMaze() {
-		// TODO Auto-generated method stub
-		return maze;
-	}
 
 }

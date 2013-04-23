@@ -4,28 +4,32 @@ import java.util.Random;
 
 public abstract class Algorithm {
 	
-	public static final int UP = 0;
-	public static final int RIGHT = 1;
-	public static final int DOWN = 2;
-	public static final int LEFT = 3;
+	protected int startX;
+	protected int startY;
+	protected int width;
+	protected int height;
+	protected Random rand = new Random();
 	
-	public int startX;
-	public int startY;
+	protected MazeMap map;
 	
-	public int[][] maze;
+	protected Cell currentCell;
 	
-	public int height;
-	public int width;
-	
-	public Cell currentCell;
-	
-	public Random rand = new Random();
+	public Algorithm(MazeMap map){
+		startX = startY = 0;
+		this.map = map;
+		width = map.xsize;
+		height = map.ysize;
+	}
 	
 	public abstract boolean update();
-	
-	public abstract int[][] getMaze();
 	
 	public void carve(int direction){
 		
 	}
+
+	public MazeMap getMaze() {
+		return map;
+	}
+	
+
 }
