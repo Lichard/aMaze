@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.*;
 
 public class MyGdxGame implements ApplicationListener {
 	private float w, h;
@@ -18,6 +19,7 @@ public class MyGdxGame implements ApplicationListener {
 	private ShapeRenderer squareRenderer;
 	private MazeMap map;
 	private Algorithm algo;
+	private Stage stage;
 
 	public void setSize(int x, int y){
 		xsize = x;
@@ -41,7 +43,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	@Override
 	public void create() {
-
+		
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 		xsize = 10;
