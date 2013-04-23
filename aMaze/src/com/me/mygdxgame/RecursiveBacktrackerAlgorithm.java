@@ -25,7 +25,6 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 	//constructor with random start position
 	public RecursiveBacktrackerAlgorithm(MazeMap map){
 		super(map);
-
 		visited = new boolean[width][height];
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
