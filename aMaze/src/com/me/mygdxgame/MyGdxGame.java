@@ -20,15 +20,28 @@ public class MyGdxGame implements ApplicationListener {
 	private Algorithm algo;
 
 	public void setSize(int x, int y){
-		
+		xsize = x;
+		ysize = y;
+		map = new MazeMap(xsize,ysize);
 	}
 	
 	public void setAlgorithm(int selector){
-		
+		switch(selector){
+		case 1:
+			algo = new RecursiveBacktrackerAlgorithm(map);
+			break;
+		case 2:
+			algo = new PrimAlgorithm(map);
+			break;
+		case 3:
+			algo = new TestAlgorithm(map);
+			break;
+		}
 	}
 	
 	@Override
 	public void create() {
+
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 		xsize = 10;
