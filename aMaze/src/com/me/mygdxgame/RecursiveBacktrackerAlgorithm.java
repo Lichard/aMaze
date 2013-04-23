@@ -2,32 +2,32 @@ package com.me.mygdxgame;
 
 import java.util.Stack;
 
-
 public class RecursiveBacktrackerAlgorithm extends Algorithm {
-	
-	//The fields that contain the starting position of the maze generation
-	//private int startX;
-	//private int startY;
-	//2d array that represents the maze to be generated
-	//private int[][] maze;
-	//2d array that represents which cells have been visited in the maze
+
+	// The fields that contain the starting position of the maze generation
+	// private int startX;
+	// private int startY;
+	// 2d array that represents the maze to be generated
+	// private int[][] maze;
+	// 2d array that represents which cells have been visited in the maze
 	private boolean[][] visited;
-	//dimensions of the matrix
-	//private int height;
-	//private int width;
-	//the stack keeps track of how deep we're going
+	// dimensions of the matrix
+	// private int height;
+	// private int width;
+	// the stack keeps track of how deep we're going
 	private Stack<Cell> stack = new Stack<Cell>();
-	//the current position of where we are in the maze
-	//private Cell currentCell;
 
-	//private Random rand = new Random();
+	// the current position of where we are in the maze
+	// private Cell currentCell;
 
-	//constructor with random start position
-	public RecursiveBacktrackerAlgorithm(MazeMap map){
+	// private Random rand = new Random();
+
+	// constructor with random start position
+	public RecursiveBacktrackerAlgorithm(MazeMap map) {
 		super(map);
 		visited = new boolean[width][height];
-		for(int i = 0; i < width; i++){
-			for(int j = 0; j < height; j++){
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				visited[i][j] = false;
 			}
 		}
@@ -36,12 +36,13 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 		currentCell = startPosition;
 		stack.push(startPosition);
 	}
-	//constructor with specific start position
-	public RecursiveBacktrackerAlgorithm(MazeMap map, int x, int y){
+
+	// constructor with specific start position
+	public RecursiveBacktrackerAlgorithm(MazeMap map, int x, int y) {
 		super(map);
 		visited = new boolean[width][height];
-		for(int i = 0; i < width; i++){
-			for(int j = 0; j < height; j++){
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				visited[i][j] = false;
 			}
 		}
@@ -50,52 +51,57 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 		stack.push(startPosition);
 	}
 
-	//continually call this method in the actual game to do a step by step of the algorithm
+	// continually call this method in the actual game to do a step by step of
+	// the algorithm
 	@Override
 	public boolean update() {
 		// TODO Auto-generated method stub
 
-		//keeps track of which neighbors are available from the current position
-		if(!stack.empty()){
+		// keeps track of which neighbors are available from the current
+		// position
+		if (!stack.empty()) {
 			int[] neighbors = new int[4];
 			int freeNeighborCount = 0;
-			//check whether there is a free neighbor
-			for (int i = 0; i < 4; i++){
-				switch(i){
+			// check whether there is a free neighbor
+			for (int i = 0; i < 4; i++) {
+				switch (i) {
 				case UP:
-					if(currentCell.y > 0 && !visited[currentCell.x][currentCell.y-1]){
+					if (currentCell.y > 0
+							&& !visited[currentCell.x][currentCell.y - 1]) {
 						neighbors[freeNeighborCount++] = i;
-						//CHANGE MADE HERE 4/23/13
-						//visited[currentCell.x][currentCell.y-1] = true;
+						// CHANGE MADE HERE 4/23/13
+						// visited[currentCell.x][currentCell.y-1] = true;
 					}
 					break;
 				case RIGHT:
-					if(currentCell.x < width-1 && !visited[currentCell.x + 1][currentCell.y]){
+					if (currentCell.x < width - 1
+							&& !visited[currentCell.x + 1][currentCell.y]) {
 						neighbors[freeNeighborCount++] = i;
-						//CHANGE MADE HERE 4/23/13
-						//visited[currentCell.x+1][currentCell.y] = true;
+						// CHANGE MADE HERE 4/23/13
+						// visited[currentCell.x+1][currentCell.y] = true;
 					}
 					break;
 				case DOWN:
-					if(currentCell.y < height-1 && !visited[currentCell.x][currentCell.y+1]){
+					if (currentCell.y < height - 1
+							&& !visited[currentCell.x][currentCell.y + 1]) {
 						neighbors[freeNeighborCount++] = i;
-						//CHANGE MADE HERE 4/23/13
-						//visited[currentCell.x][currentCell.y+1] = true;
+						// CHANGE MADE HERE 4/23/13
+						// visited[currentCell.x][currentCell.y+1] = true;
 					}
 					break;
 				case LEFT:
-					if(currentCell.x > 0 && !visited[currentCell.x-1][currentCell.y]){
+					if (currentCell.x > 0
+							&& !visited[currentCell.x - 1][currentCell.y]) {
 						neighbors[freeNeighborCount++] = i;
-						//CHANGE MADE HERE 4/23/13
-						//visited[currentCell.x-1][currentCell.y] = true;
+						// CHANGE MADE HERE 4/23/13
+						// visited[currentCell.x-1][currentCell.y] = true;
 					}
 					break;
 				}
 			}
-			//randomly select a free neighbor to move towards
-			if(freeNeighborCount > 0){
-
-				switch(neighbors[rand.nextInt(freeNeighborCount)]){
+			// randomly select a free neighbor to move towards
+			if (freeNeighborCount > 0) {
+				switch (neighbors[rand.nextInt(freeNeighborCount)]) {
 				case UP:
 					map.set(currentCell.x, currentCell.y, MazeMap.UP);
 					currentCell.y--;
@@ -103,34 +109,32 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 					visited[currentCell.x][currentCell.y] = true;
 					break;
 				case RIGHT:
-					//add draw right part here
+					// add draw right part here
 					map.set(currentCell.x, currentCell.y, MazeMap.RIGHT);
 					currentCell.x++;
 					stack.push(currentCell);
 					visited[currentCell.x][currentCell.y] = true;
 					break;
 				case DOWN:
-					//add draw down part here
+					// add draw down part here
 					map.set(currentCell.x, currentCell.y, MazeMap.DOWN);
 					currentCell.y++;
 					stack.push(currentCell);
 					visited[currentCell.x][currentCell.y] = true;
 					break;
 				case LEFT:
-					//add draw left part here
+					// add draw left part here
 					map.set(currentCell.x, currentCell.y, MazeMap.LEFT);
-					currentCell.x--;//CAN FALL OFF OF MAP. Needs fix.
+					currentCell.x--;// CAN FALL OFF OF MAP. Needs fix.
 					stack.push(currentCell);
 					visited[currentCell.x][currentCell.y] = true;
 					break;
 				}
-			}
-			else{
+			} else {
 				currentCell = stack.pop();
 			}
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
