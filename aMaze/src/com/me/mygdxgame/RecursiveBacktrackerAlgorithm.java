@@ -74,7 +74,7 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 						neighbors[freeNeighborCount++] = i;
 					break;
 				case LEFT:
-					if(currentCell.y > 0 && !visited[currentCell.x-1][currentCell.y])
+					if(currentCell.x > 0 && !visited[currentCell.x-1][currentCell.y])
 						neighbors[freeNeighborCount++] = i;
 					break;
 				}

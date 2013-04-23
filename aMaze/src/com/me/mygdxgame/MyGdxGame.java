@@ -20,15 +20,16 @@ public class MyGdxGame implements ApplicationListener {
 	private MazeMap map;
 	private Algorithm algo;
 	private Stage stage;
+	private boolean incomplete;
 
-	public void setSize(int x, int y){
+	public void setSize(int x, int y) {
 		xsize = x;
 		ysize = y;
-		map = new MazeMap(xsize,ysize);
+		map = new MazeMap(xsize, ysize);
 	}
-	
-	public void setAlgorithm(int selector){
-		switch(selector){
+
+	public void setAlgorithm(int selector) {
+		switch (selector) {
 		case 1:
 			algo = new RecursiveBacktrackerAlgorithm(map);
 			break;
@@ -40,22 +41,22 @@ public class MyGdxGame implements ApplicationListener {
 			break;
 		}
 	}
-	
+
 	@Override
 	public void create() {
-		
+		incomplete = true;
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 		xsize = 10;
 		ysize = 10;
-		map = new MazeMap(xsize,ysize);
+		map = new MazeMap(xsize, ysize);
 		algo = new RecursiveBacktrackerAlgorithm(map);
-		
+
 		camera = new OrthographicCamera(w, h);
 		cameraUI = new OrthographicCamera(220, 480);
 		camera.translate(w / 2, h / 2);
 		batch = new SpriteBatch();
-		
+
 		lineRenderer = new ShapeRenderer();
 		squareRenderer = new ShapeRenderer();
 		Gdx.gl10.glLineWidth(3);
@@ -68,13 +69,13 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void render() {
-		algo.update();
+		if (incomplete)
+			incomplete= algo.update();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glViewport(0, 0, 480, 480);
 		camera.update();
 		camera.apply(Gdx.gl10);
-		
 
 		lineRenderer.setProjectionMatrix(camera.combined);
 		lineRenderer.begin(ShapeType.Line);
@@ -85,15 +86,18 @@ public class MyGdxGame implements ApplicationListener {
 
 		for (int i = 0; i < xsize; i++) {
 			for (int j = 0; j < ysize; j++) {
-				if ((map.get(i, j) & MazeMap.RIGHT) == 0) {// if not marked as tunneled
+				if ((map.get(i, j) & MazeMap.RIGHT) == 0) {// if not marked as
+															// tunneled
 					lineRenderer.line((i + 1) * w / xsize, j * h / ysize,
 							(i + 1) * w / xsize, (j + 1) * h / ysize);
 				}
-				if ((map.get(i, j) & MazeMap.UP) == 0) {// if not marked as tunneled
+				if ((map.get(i, j) & MazeMap.UP) == 0) {// if not marked as
+														// tunneled
 					lineRenderer.line((i) * w / xsize, (j + 1) * h / ysize,
 							(i + 1) * w / xsize, (j + 1) * h / ysize);
 				}
-				if ((map.get(i, j) & MazeMap.CURSOR) == 1) {// if marked as selected
+				if ((map.get(i, j) & MazeMap.CURSOR) == 1) {// if marked as
+															// selected
 					squareRenderer.filledRect((i) * w / xsize, j * h / ysize, w
 							/ xsize, h / ysize);
 				}
@@ -102,7 +106,7 @@ public class MyGdxGame implements ApplicationListener {
 		lineRenderer.line(0, 0, w, 0);
 		lineRenderer.line(0, 0, 0, h);
 		lineRenderer.end();
-		
+
 		Gdx.gl10.glLoadIdentity();
 		Gdx.gl10.glViewport(480, 0, 220, 480);
 		cameraUI.update();
