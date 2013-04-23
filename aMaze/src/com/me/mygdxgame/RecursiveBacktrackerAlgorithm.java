@@ -31,6 +31,7 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 				visited[i][j] = false;
 			}
 		}
+		visited[0][0] = true;
 		Cell startPosition = new Cell(startX, startY);
 		currentCell = startPosition;
 		stack.push(startPosition);
@@ -62,28 +63,32 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 			for (int i = 0; i < 4; i++){
 				switch(i){
 				case UP:
-					if(currentCell.y > 0 && !visited[currentCell.x][currentCell.y-1])
+					if(currentCell.y > 0 && !visited[currentCell.x][currentCell.y-1]){
 						neighbors[freeNeighborCount++] = i;
 						//CHANGE MADE HERE 4/23/13
-						visited[currentCell.x][currentCell.y-1] = true;
+						//visited[currentCell.x][currentCell.y-1] = true;
+					}
 					break;
 				case RIGHT:
-					if(currentCell.x < width-1 && !visited[currentCell.x + 1][currentCell.y])
+					if(currentCell.x < width-1 && !visited[currentCell.x + 1][currentCell.y]){
 						neighbors[freeNeighborCount++] = i;
 						//CHANGE MADE HERE 4/23/13
-						visited[currentCell.x+1][currentCell.y] = true;
+						//visited[currentCell.x+1][currentCell.y] = true;
+					}
 					break;
 				case DOWN:
-					if(currentCell.y < height-1 && !visited[currentCell.x][currentCell.y+1])
+					if(currentCell.y < height-1 && !visited[currentCell.x][currentCell.y+1]){
 						neighbors[freeNeighborCount++] = i;
 						//CHANGE MADE HERE 4/23/13
-						visited[currentCell.x][currentCell.y+1] = true;
+						//visited[currentCell.x][currentCell.y+1] = true;
+					}
 					break;
 				case LEFT:
-					if(currentCell.x > 0 && !visited[currentCell.x-1][currentCell.y])
+					if(currentCell.x > 0 && !visited[currentCell.x-1][currentCell.y]){
 						neighbors[freeNeighborCount++] = i;
 						//CHANGE MADE HERE 4/23/13
-						visited[currentCell.x-1][currentCell.y] = true;
+						//visited[currentCell.x-1][currentCell.y] = true;
+					}
 					break;
 				}
 			}
@@ -95,24 +100,28 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 					map.set(currentCell.x, currentCell.y, MazeMap.UP);
 					currentCell.y--;
 					stack.push(currentCell);
+					visited[currentCell.x][currentCell.y] = true;
 					break;
 				case RIGHT:
 					//add draw right part here
 					map.set(currentCell.x, currentCell.y, MazeMap.RIGHT);
 					currentCell.x++;
 					stack.push(currentCell);
+					visited[currentCell.x][currentCell.y] = true;
 					break;
 				case DOWN:
 					//add draw down part here
 					map.set(currentCell.x, currentCell.y, MazeMap.DOWN);
 					currentCell.y++;
 					stack.push(currentCell);
+					visited[currentCell.x][currentCell.y] = true;
 					break;
 				case LEFT:
 					//add draw left part here
 					map.set(currentCell.x, currentCell.y, MazeMap.LEFT);
 					currentCell.x--;//CAN FALL OFF OF MAP. Needs fix.
 					stack.push(currentCell);
+					visited[currentCell.x][currentCell.y] = true;
 					break;
 				}
 			}
