@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class MazeMap {
 	public int xsize;
 	public int ysize;
+	public Cell current; 
 	private ArrayList<ArrayList<Integer>> map;
 	public static final int UP = 1;
 	public static final int RIGHT = 2;
@@ -18,6 +19,7 @@ public class MazeMap {
 	public MazeMap(int x, int y){
 		xsize=x;
 		ysize=y;
+		current = new Cell(0,0);
 		map = new ArrayList<ArrayList<Integer>>();
 		for (int i =0; i<ysize;i++){
 			map.add(new ArrayList<Integer>());
@@ -36,5 +38,6 @@ public class MazeMap {
 		if((dir & a)!=1){
 			map.get(x).set(y, dir+a);
 		}
+		//TODO REMOVE ADJACENT
 	}
 }

@@ -44,15 +44,17 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void create() {
-		incomplete = true;
+		incomplete = false;
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
-		setSize(10,10);
-		setAlgorithm(1);//1 is recursive, 2 is prim
+		setSize(10, 10);
+		setAlgorithm(1);// 1 is recursive, 2 is prim
 
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
 		camera = new OrthographicCamera(w, h);
-		cameraUI = new OrthographicCamera(220, 480);
-		camera.translate(w / 2, h / 2);
+		camera.translate(-w / 2, -h / 2);
+		cameraUI = new OrthographicCamera((float) (w*0.4), h);
 
 		lineRenderer = new ShapeRenderer();
 		squareRenderer = new ShapeRenderer();
@@ -66,10 +68,10 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void render() {
 		if (incomplete)
-			incomplete= algo.update();
+			incomplete = algo.update();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glViewport(0, 0, 480, 480);
+		Gdx.gl.glViewport(0, 0, (int)(w*0.6), (int)h);
 		camera.update();
 		camera.apply(Gdx.gl10);
 
@@ -82,35 +84,31 @@ public class MyGdxGame implements ApplicationListener {
 
 		for (int i = 0; i < xsize; i++) {
 			for (int j = 0; j < ysize; j++) {
-				if ((map.get(i, j) & MazeMap.RIGHT) == 0) {// if not marked as
-															// tunneled
-					lineRenderer.line((i + 1) * w / xsize, j * h / ysize,
-							(i + 1) * w / xsize, (j + 1) * h / ysize);
+				if ((map.get(i, j) & MazeMap.LEFT) == 0) {
+					lineRenderer.line(-(i + 1) * w / xsize, -j * h / ysize,
+							-(i + 1) * w / xsize, -(j + 1) * h / ysize);
 				}
-				if ((map.get(i, j) & MazeMap.UP) == 0) {// if not marked as
-														// tunneled
-					lineRenderer.line((i) * w / xsize, (j + 1) * h / ysize,
-							(i + 1) * w / xsize, (j + 1) * h / ysize);
+				if ((map.get(i, j) & MazeMap.DOWN) == 0) {
+					lineRenderer.line(-(i) * w / xsize, -(j + 1) * h / ysize,
+							-(i + 1) * w / xsize, -(j + 1) * h / ysize);
 				}
-				if ((map.get(i, j) & MazeMap.CURSOR) == 1) {// if marked as
-															// selected
-					squareRenderer.filledRect((i) * w / xsize, j * h / ysize, w
-							/ xsize, h / ysize);
+				if ((map.get(i, j) & MazeMap.CURSOR) == 1) {
+					squareRenderer.filledRect(-(i) * w / xsize, -j * h / ysize, -w
+							/ xsize, -h / ysize);
 				}
 			}
 		}
-		lineRenderer.line(0, 0, w, 0);
-		lineRenderer.line(0, 0, 0, h);
+		lineRenderer.line(0, 0, -w, 0);
+		lineRenderer.line(0, 0, 0, -h);
 		lineRenderer.end();
 
 		Gdx.gl10.glLoadIdentity();
-		Gdx.gl10.glViewport(480, 0, 220, 480);
+		Gdx.gl10.glViewport((int) (w*0.6), 0, (int) (w*0.4), (int) h);
 		cameraUI.update();
 		cameraUI.apply(Gdx.gl10);
 		squareRenderer.setProjectionMatrix(cameraUI.combined);
 		squareRenderer.filledRect(0, 0, 50, 50);
 		squareRenderer.end();
-
 	}
 
 	@Override

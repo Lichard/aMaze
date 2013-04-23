@@ -115,18 +115,14 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 					stack.push(currentCell);
 					break;
 				}
-
 			}
 			else{
 				currentCell = stack.pop();
 			}
-
 			return true;
 		}
 		else{
 			return false;
 		}
 	}
-
-
 }
