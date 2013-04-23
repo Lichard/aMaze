@@ -44,7 +44,7 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void create() {
-		incomplete = false;
+		incomplete = true;
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 		setSize(10, 10);
