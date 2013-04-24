@@ -53,7 +53,7 @@ public class MyGdxGame implements ApplicationListener {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		camera = new OrthographicCamera(w, h);
-		camera.translate(-w / 2, -h / 2);
+		camera.translate(w / 2, -h / 2);
 		cameraUI = new OrthographicCamera((float) (w*0.4), h);
 
 		lineRenderer = new ShapeRenderer();
@@ -84,21 +84,21 @@ public class MyGdxGame implements ApplicationListener {
 
 		for (int i = 0; i < xsize; i++) {
 			for (int j = 0; j < ysize; j++) {
-				if ((map.get(i, j) & MazeMap.LEFT) == 0) {
-					lineRenderer.line(-(i + 1) * w / xsize, -j * h / ysize,
-							-(i + 1) * w / xsize, -(j + 1) * h / ysize);
+				if ((map.get(i, j) & MazeMap.RIGHT) == 0) {
+					lineRenderer.line((i + 1) * w / xsize, -j * h / ysize,
+							(i + 1) * w / xsize, -(j + 1) * h / ysize);
 				}
 				if ((map.get(i, j) & MazeMap.DOWN) == 0) {
-					lineRenderer.line(-(i) * w / xsize, -(j + 1) * h / ysize,
-							-(i + 1) * w / xsize, -(j + 1) * h / ysize);
+					lineRenderer.line((i) * w / xsize, -(j + 1) * h / ysize,
+							(i + 1) * w / xsize, -(j + 1) * h / ysize);
 				}
 				if ((map.get(i, j) & MazeMap.CURSOR) == 1) {
-					squareRenderer.filledRect(-(i) * w / xsize, -j * h / ysize, -w
+					squareRenderer.filledRect((i) * w / xsize, -j * h / ysize, w
 							/ xsize, -h / ysize);
 				}
 			}
 		}
-		lineRenderer.line(0, 0, -w, 0);
+		lineRenderer.line(0, 0, w, 0);
 		lineRenderer.line(0, 0, 0, -h);
 		lineRenderer.end();
 
