@@ -98,6 +98,8 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 				switch(neighbors[rand.nextInt(freeNeighborCount)]){
 				case UP:
 					map.set(currentCell.x, currentCell.y, MazeMap.UP);
+					//*
+					map.set(currentCell.x, currentCell.y, MazeMap.CURSOR);
 					currentCell.y--;
 					stack.push(currentCell);
 					visited[currentCell.x][currentCell.y] = true;
@@ -105,6 +107,8 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 				case RIGHT:
 					//add draw right part here
 					map.set(currentCell.x, currentCell.y, MazeMap.RIGHT);
+					//*
+					map.set(currentCell.x, currentCell.y, MazeMap.CURSOR);
 					currentCell.x++;
 					stack.push(currentCell);
 					visited[currentCell.x][currentCell.y] = true;
@@ -112,6 +116,8 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 				case DOWN:
 					//add draw down part here
 					map.set(currentCell.x, currentCell.y, MazeMap.DOWN);
+					//*
+					map.set(currentCell.x, currentCell.y, MazeMap.CURSOR);
 					currentCell.y++;
 					stack.push(currentCell);
 					visited[currentCell.x][currentCell.y] = true;
@@ -119,6 +125,8 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 				case LEFT:
 					//add draw left part here
 					map.set(currentCell.x, currentCell.y, MazeMap.LEFT);
+					//*
+					map.set(currentCell.x, currentCell.y, MazeMap.CURSOR);
 					currentCell.x--;//CAN FALL OFF OF MAP. Needs fix.
 					stack.push(currentCell);
 					visited[currentCell.x][currentCell.y] = true;
