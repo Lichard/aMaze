@@ -69,32 +69,24 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 					if (currentCell.y > 0
 							&& !visited[currentCell.x][currentCell.y - 1]) {
 						neighbors[freeNeighborCount++] = i;
-						// CHANGE MADE HERE 4/23/13
-						// visited[currentCell.x][currentCell.y-1] = true;
 					}
 					break;
 				case RIGHT:
 					if (currentCell.x < width - 1
 							&& !visited[currentCell.x + 1][currentCell.y]) {
 						neighbors[freeNeighborCount++] = i;
-						// CHANGE MADE HERE 4/23/13
-						// visited[currentCell.x+1][currentCell.y] = true;
 					}
 					break;
 				case DOWN:
 					if (currentCell.y < height - 1
 							&& !visited[currentCell.x][currentCell.y + 1]) {
 						neighbors[freeNeighborCount++] = i;
-						// CHANGE MADE HERE 4/23/13
-						// visited[currentCell.x][currentCell.y+1] = true;
 					}
 					break;
 				case LEFT:
 					if (currentCell.x > 0
 							&& !visited[currentCell.x - 1][currentCell.y]) {
 						neighbors[freeNeighborCount++] = i;
-						// CHANGE MADE HERE 4/23/13
-						// visited[currentCell.x-1][currentCell.y] = true;
 					}
 					break;
 				}
@@ -131,13 +123,9 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 				case LEFT:
 					// add draw left part here
 					map.set(currentCell.x, currentCell.y, MazeMap.LEFT);
-<<<<<<< HEAD
 					//*
 					map.set(currentCell.x, currentCell.y, MazeMap.CURSOR);
-					currentCell.x--;//CAN FALL OFF OF MAP. Needs fix.
-=======
 					currentCell.x--;// CAN FALL OFF OF MAP. Needs fix.
->>>>>>> 5d0c4173c14cfdf1feb68a1c67738331cf0a17cf
 					stack.push(currentCell);
 					visited[currentCell.x][currentCell.y] = true;
 					break;
