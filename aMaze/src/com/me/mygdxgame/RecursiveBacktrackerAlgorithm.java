@@ -47,7 +47,7 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 			}
 		}
 		Cell startPosition = new Cell(startX, startY);
-		currentCell = startPosition;
+		currentCell = new Cell(startX, startY);
 		stack.push(startPosition);
 	}
 
@@ -99,7 +99,8 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 					//*
 					map.set(currentCell.x, currentCell.y, MazeMap.CURSOR);
 					currentCell.y--;
-					stack.push(currentCell);
+					Cell nextCellUp = new Cell(currentCell.x, currentCell.y);
+					stack.push(nextCellUp);
 					visited[currentCell.x][currentCell.y] = true;
 					break;
 				case RIGHT:
@@ -108,7 +109,8 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 					//*
 					map.set(currentCell.x, currentCell.y, MazeMap.CURSOR);
 					currentCell.x++;
-					stack.push(currentCell);
+					Cell nextCellRight = new Cell(currentCell.x, currentCell.y);
+					stack.push(nextCellRight);
 					visited[currentCell.x][currentCell.y] = true;
 					break;
 				case DOWN:
@@ -117,7 +119,8 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 					//*
 					map.set(currentCell.x, currentCell.y, MazeMap.CURSOR);
 					currentCell.y++;
-					stack.push(currentCell);
+					Cell nextCellDown = new Cell(currentCell.x, currentCell.y);
+					stack.push(nextCellDown);
 					visited[currentCell.x][currentCell.y] = true;
 					break;
 				case LEFT:
@@ -126,7 +129,8 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 					//*
 					map.set(currentCell.x, currentCell.y, MazeMap.CURSOR);
 					currentCell.x--;// CAN FALL OFF OF MAP. Needs fix.
-					stack.push(currentCell);
+					Cell nextCellLeft = new Cell(currentCell.x, currentCell.y);
+					stack.push(nextCellLeft);
 					visited[currentCell.x][currentCell.y] = true;
 					break;
 				}
