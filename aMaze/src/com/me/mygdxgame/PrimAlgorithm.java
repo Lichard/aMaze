@@ -156,19 +156,15 @@ public class PrimAlgorithm extends Algorithm {
 			switch(inNeighbors[rand.nextInt(inNeighborCount)]){
 			case UP:
 				map.set(frontier.x, frontier.y, MazeMap.UP);
-				frontierCount--;
 				break;
 			case RIGHT:
 				map.set(frontier.x, frontier.y, MazeMap.RIGHT);
-				frontierCount--;
 				break;
 			case DOWN:
 				map.set(frontier.x, frontier.y, MazeMap.DOWN);
-				frontierCount--;
 				break;
 			case LEFT:
 				map.set(frontier.x, frontier.y, MazeMap.LEFT);
-				frontierCount--;
 				break;
 			}
 			
