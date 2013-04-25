@@ -19,7 +19,7 @@ public class MazeMap {
 	public MazeMap(int x, int y) {
 		xsize = x;
 		ysize = y;
-		current = new Cell(0, 0);
+		current = new Cell(-1, -1);
 		map = new ArrayList<ArrayList<Integer>>();
 		for (int i = 0; i < ysize; i++) {
 			map.add(new ArrayList<Integer>());
