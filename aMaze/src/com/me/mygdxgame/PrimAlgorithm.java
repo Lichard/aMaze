@@ -2,8 +2,6 @@ package com.me.mygdxgame;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.math.Vector2;
-
 public class PrimAlgorithm extends Algorithm {
 	
 	private static final int IN = 0;
@@ -34,7 +32,7 @@ public class PrimAlgorithm extends Algorithm {
 		states[currentCell.x ][currentCell.y ] = IN;
 		for(int i = 0; i < 4; i++){
 			switch(i){
-			case MazeMap.UP:
+			case UP:
 				if(currentCell.y  > 0){
 					Cell frontierCell = new Cell(currentCell.x , currentCell.y -1);
 					states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -42,7 +40,7 @@ public class PrimAlgorithm extends Algorithm {
 					frontierCount++;
 				}
 				break;
-			case MazeMap.RIGHT:
+			case RIGHT:
 				if(currentCell.x  < width -1){
 					Cell frontierCell = new Cell(currentCell.x +1, currentCell.y );
 					states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -50,7 +48,7 @@ public class PrimAlgorithm extends Algorithm {
 					frontierCount++;
 				}
 				break;
-			case MazeMap.DOWN:
+			case DOWN:
 				if(currentCell.y  < height-1){
 					Cell frontierCell = new Cell(currentCell.x , currentCell.y +1);
 					states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -58,7 +56,7 @@ public class PrimAlgorithm extends Algorithm {
 					frontierCount++;
 				}
 				break;
-			case MazeMap.LEFT:
+			case LEFT:
 				if(currentCell.x  > 0){
 					Cell frontierCell = new Cell(currentCell.x -1, currentCell.y );
 					states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -86,7 +84,7 @@ public class PrimAlgorithm extends Algorithm {
 		states[currentCell.x ][currentCell.y ] = IN;
 		for(int i = 0; i < 4; i++){
 			switch(i){
-			case MazeMap.UP:
+			case UP:
 				if(currentCell.y  > 0){
 					Cell frontierCell = new Cell(currentCell.x , currentCell.y -1);
 					states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -94,7 +92,7 @@ public class PrimAlgorithm extends Algorithm {
 					frontierCount++;
 				}
 				break;
-			case MazeMap.RIGHT:
+			case RIGHT:
 				if(currentCell.x  < width -1){
 					Cell frontierCell = new Cell(currentCell.x +1, currentCell.y );
 					states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -102,7 +100,7 @@ public class PrimAlgorithm extends Algorithm {
 					frontierCount++;
 				}
 				break;
-			case MazeMap.DOWN:
+			case DOWN:
 				if(currentCell.y  < height-1){
 					Cell frontierCell = new Cell(currentCell.x , currentCell.y +1);
 					states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -110,7 +108,7 @@ public class PrimAlgorithm extends Algorithm {
 					frontierCount++;
 				}
 				break;
-			case MazeMap.LEFT:
+			case LEFT:
 				if(currentCell.x  > 0){
 					Cell frontierCell = new Cell(currentCell.x -1, currentCell.y );
 					states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -131,22 +129,22 @@ public class PrimAlgorithm extends Algorithm {
 			int inNeighborCount = 0;
 			for(int i = 0; i < 4; i++){
 				switch(i){
-				case MazeMap.UP:
+				case UP:
 					if(frontier.y  > 0 && states[frontier.x ][frontier.y -1] == IN){
 						inNeighbors[inNeighborCount++] = i;
 					}
 					break;
-				case MazeMap.RIGHT:
+				case RIGHT:
 					if(frontier.x  < width-1 && states[frontier.x +1][frontier.y ] == IN){
 						inNeighbors[inNeighborCount++] = i;
 					}
 					break;
-				case MazeMap.DOWN:
+				case DOWN:
 					if(frontier.y  < height-1 && states[frontier.x ][frontier.y +1] == IN){
 						inNeighbors[inNeighborCount++] = i;
 					}
 					break;
-				case MazeMap.LEFT:
+				case LEFT:
 					if(frontier.x  > 0 && states[frontier.x -1][frontier.y ] == IN){
 						inNeighbors[inNeighborCount++] = i;
 					}
@@ -155,8 +153,27 @@ public class PrimAlgorithm extends Algorithm {
 			}
 			//the drawing part, didn't implement this part yet need to do this
 			
-			carve(inNeighbors[rand.nextInt(inNeighborCount)]);
-		
+			switch(inNeighbors[rand.nextInt(inNeighborCount)]){
+			case UP:
+				map.set(frontier.x, frontier.y, MazeMap.UP);
+				frontierCount--;
+				break;
+			case RIGHT:
+				map.set(frontier.x, frontier.y, MazeMap.RIGHT);
+				frontierCount--;
+				break;
+			case DOWN:
+				map.set(frontier.x, frontier.y, MazeMap.DOWN);
+				frontierCount--;
+				break;
+			case LEFT:
+				map.set(frontier.x, frontier.y, MazeMap.LEFT);
+				frontierCount--;
+				break;
+			}
+			
+			
+			
 			//Mark this cell as IN
 			states[frontier.x ][frontier.y ] = IN;
 			frontierCells.remove(frontierIndex);
@@ -166,7 +183,7 @@ public class PrimAlgorithm extends Algorithm {
 			
 			for(int i = 0; i < 4; i++){
 				switch(i){
-				case MazeMap.UP:
+				case UP:
 					if(frontier.y  > 0 && states[frontier.x ][frontier.y -1] == OUT){
 						Cell frontierCell = new Cell(frontier.x , frontier.y -1);
 						states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -174,7 +191,7 @@ public class PrimAlgorithm extends Algorithm {
 						frontierCount++;
 					}
 					break;
-				case MazeMap.RIGHT:
+				case RIGHT:
 					if(frontier.x  < width-1 && states[frontier.x +1][frontier.y ] == OUT){
 						Cell frontierCell = new Cell(frontier.x +1, frontier.y );
 						states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -182,7 +199,7 @@ public class PrimAlgorithm extends Algorithm {
 						frontierCount++;
 					}
 					break;
-				case MazeMap.DOWN:
+				case DOWN:
 					if(frontier.y  < height-1 && states[frontier.x ][frontier.y +1] == OUT){
 						Cell frontierCell = new Cell(frontier.x , frontier.y +1);
 						states[frontierCell.x ][frontierCell.y ] = FRONTIER;
@@ -190,7 +207,7 @@ public class PrimAlgorithm extends Algorithm {
 						frontierCount++;
 					}
 					break;
-				case MazeMap.LEFT:
+				case LEFT:
 					if(frontier.x  > 0 && states[frontier.x -1][frontier.y ] == OUT){
 						Cell frontierCell = new Cell(frontier.x -1, frontier.y );
 						states[frontierCell.x ][frontierCell.y ] = FRONTIER;
