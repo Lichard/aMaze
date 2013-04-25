@@ -213,6 +213,7 @@ public class PrimAlgorithm extends Algorithm {
 					break;
 				}
 			}
+			map.current=frontier;
 			return true;
 		}
 		else{

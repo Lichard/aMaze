@@ -133,6 +133,7 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 				}
 			} else {
 				currentCell = stack.pop();
+				map.current=currentCell;
 			}
 			return true;
 		} else {

@@ -45,7 +45,7 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void create() {
 		run = true;
-		setSize(30, 30);
+		setSize(50, 50);
 		setAlgorithm(1);// 1 is recursive, 2 is prim
 		stage = new Stage();
 		table = new Table();
