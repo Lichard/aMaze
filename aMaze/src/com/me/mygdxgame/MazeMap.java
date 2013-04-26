@@ -11,12 +11,12 @@ public class MazeMap {
 	public static final int RIGHT = 2;
 	public static final int DOWN = 4;
 	public static final int LEFT = 8;
-	public static final int CURSOR = 16;
-	public static final int IN = 32;
-	public static final int FRONTIER = 64;
-	public static final int OUT = 128;
+	public static final int GREEN = 16;
+	public static final int IN = 32;//YELLOW
+	public static final int FRONTIER = 64;//ORANGE
+	public static final int OUT = 128;//GREY
 
-	public MazeMap(int x, int y) {
+	MazeMap(int x, int y) {
 		xsize = x;
 		ysize = y;
 		current = new Cell(-1, -1);
@@ -33,6 +33,9 @@ public class MazeMap {
 		return map.get(x).get(y);
 	}
 
+	public void remove (int x, int y, int a){
+		
+	}
 	public void set(int x, int y, int a) {
 		int dir = map.get(x).get(y);
 		if ((dir & a) != 1) { // Set main Cell

@@ -2,13 +2,21 @@ package com.me.mygdxgame;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.*;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MyGdxGame implements ApplicationListener {
 	private float w, h;
@@ -21,6 +29,19 @@ public class MyGdxGame implements ApplicationListener {
 	private Stage stage;
 	private Table table;
 	private boolean run;
+
+	private Label fpsLabel;
+	private Button dButton;
+	private Button primButton;
+	private Button recursiveButton;
+	private Button startButton;
+	private Button stepButton;
+	private Button clearButton;
+
+	private BitmapFont buttonFont;
+	private TextButtonStyle tStyle;
+	private LabelStyle lStyle;
+	private Skin skin;
 
 	public void setSize(int x, int y) {
 		xsize = x;
@@ -36,24 +57,57 @@ public class MyGdxGame implements ApplicationListener {
 		case 2:
 			algo = new PrimAlgorithm(map);
 			break;
-		case 3:
-			algo = new TestAlgorithm(map);
-			break;
 		}
 	}
 
 	@Override
 	public void create() {
-		run = true;
+		run = false;
 		setSize(50, 50);
-		setAlgorithm(1);// 1 is recursive, 2 is prim
+		setAlgorithm(2);// 1 is recursive, 2 is prim
+		
 		stage = new Stage();
 		table = new Table();
-
+		table.setFillParent(true);
+		stage.addActor(table);
+		skin = new Skin();
 		Gdx.input.setInputProcessor(stage);
+//-------------------------------------STYLES---------------------------------------------------
+		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill();
+		skin.add("white", new Texture(pixmap));
+		skin.add("default", new BitmapFont());
+		tStyle = new TextButtonStyle();
+		tStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
+		tStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+		tStyle.checked = skin.newDrawable("white", Color.BLUE);
+		tStyle.font = skin.getFont("default");
+		skin.add("default", tStyle);
+		lStyle = new LabelStyle(new BitmapFont(), Color.BLACK);
+		skin.add("default", lStyle);
+		fpsLabel = new Label("fps:", skin);
+		table.add(fpsLabel);
+		
+		dButton = new TextButton("3d/2d", skin);
+		table.add(dButton);
+		dButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				System.out.println("Clicked! Is checked: "
+						+ dButton.isChecked());
+				((TextButton) dButton).setText("Good job!");
+			}
+		});
+		/*
+		 * primButton = new TextButton("Prim's ALgorithm",tStyle);
+		 * recursiveButton = new TextButton("Recursive Backtracker",tStyle);
+		 * 
+		 * table.add(fpsLabel); table.add(dButton); table.add(primButton);
+		 * table.add(recursiveButton);
+		 */
 		lineRenderer = new ShapeRenderer();
 		squareRenderer = new ShapeRenderer();
-		Gdx.gl10.glLineWidth(2);
+		Gdx.gl10.glLineWidth(1);
 	}
 
 	@Override
@@ -62,11 +116,14 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void render() {
-		if (run)
-			run = algo.update();
+		if (run) {
+			for (int i = 0; i < 40; i++) {
+				run = algo.update();
+			}
+		}
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glViewport(0, 0, (int) (w * 0.6), (int) h);
+		//Gdx.gl.glViewport(0, 0, (int) (w * 0.6), (int) h);
 		camera.update();
 		camera.apply(Gdx.gl10);
 
@@ -89,22 +146,26 @@ public class MyGdxGame implements ApplicationListener {
 				}
 			}
 		}
-		squareRenderer.filledRect((map.current.x) * w / xsize, -(map.current.y + 1) * h / ysize, w
-				/ xsize, h / ysize);
+		squareRenderer.filledRect((map.current.x) * w / xsize,
+				-(map.current.y + 1) * h / ysize, w / xsize, h / ysize);
 
 		lineRenderer.line(0, 0, w, 0);
 		lineRenderer.line(0, 0, 0, -h);
 		lineRenderer.end();
 		squareRenderer.end();
+
+		//Gdx.gl.glViewport((int) (w * 0.6), 0, (int) (w * 0.4), (int) h);
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
+		Table.drawDebug(stage);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		w = Gdx.graphics.getWidth();
+		w = Gdx.graphics.getWidth()*0.6f;
 		h = Gdx.graphics.getHeight();
-		camera = new OrthographicCamera(w, h);
-		camera.translate(w / 2, -h / 2);
-		table.setBounds(w*0.6f, 0, w*0.4f, h);
+		camera = new OrthographicCamera(width, height);
+		camera.translate(width / 2, -height / 2);
 	}
 
 	@Override
