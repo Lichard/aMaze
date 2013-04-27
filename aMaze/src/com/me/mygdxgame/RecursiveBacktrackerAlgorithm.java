@@ -33,7 +33,7 @@ public class RecursiveBacktrackerAlgorithm extends Algorithm {
 		}
 		visited[0][0] = true;
 		Cell startPosition = new Cell(startX, startY);
-		currentCell = startPosition;
+		currentCell = new Cell(startX, startY);
 		stack.push(startPosition);
 	}
 
