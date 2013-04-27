@@ -12,12 +12,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 public class MyGdxGame implements ApplicationListener {
 	private float w, h;
@@ -30,6 +35,7 @@ public class MyGdxGame implements ApplicationListener {
 	private Stage stage;
 	private Table table;
 	private boolean run;
+	private int algoSelection;
 
 	private Label fpsLabel;
 	private Button primButton;
@@ -63,7 +69,8 @@ public class MyGdxGame implements ApplicationListener {
 	public void create() {
 		run = false;
 		setSize(50, 50);
-		setAlgorithm(1);// 1 is recursive, 2 is prim
+		algoSelection = 1;
+		setAlgorithm(algoSelection);// 1 is recursive, 2 is prim
 
 		stage = new Stage();
 		table = new Table();
@@ -92,29 +99,66 @@ public class MyGdxGame implements ApplicationListener {
 		table.add(fpsLabel);
 		table.row();
 
-		//-------------------------BUTTONS--------------------------------
+		// -------------------------BUTTONS--------------------------------
 		startButton = new TextButton("Run", skin);
 		table.add(startButton);
 		startButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				if(startButton.isChecked()){
+				if (startButton.isChecked()) {
 					((TextButton) startButton).setText("Stop");
 					run = true;
-				}
-				else{
+				} else {
 					((TextButton) startButton).setText("Run");
 					run = false;
 				}
 			}
 		});
-		
+
 		stepButton = new TextButton("Step", skin);
-		
+		table.add(stepButton);
+		stepButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				algo.update();
+				return false;
+			}
+		});
+		table.row();
+
+		clearButton = new TextButton("Clear", skin);
+		table.add(clearButton);
+		clearButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				map = new MazeMap(xsize, ysize);
+				setAlgorithm(algoSelection);
+				return false;
+			}
+		});
+		table.row();
 
 		primButton = new TextButton("Prim's Algorithm", skin);
 		recursiveButton = new TextButton("Recursive Backtracker", skin);
 		table.add(primButton);
 		table.add(recursiveButton);
+		primButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				algoSelection = 2;
+				setSize(xsize, ysize);
+				setAlgorithm(algoSelection);
+				return false;
+			}
+		});
+		recursiveButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				algoSelection = 1;
+				setSize(xsize, ysize);
+				setAlgorithm(algoSelection);
+				return false;
+			}
+		});
 
 		lineRenderer = new ShapeRenderer();
 		squareRenderer = new ShapeRenderer();
@@ -123,6 +167,7 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void dispose() {
+		stage.dispose();
 	}
 
 	@Override
@@ -152,9 +197,10 @@ public class MyGdxGame implements ApplicationListener {
 							(i + 1) * w / xsize, -(j + 1) * h / ysize);
 				}
 				if ((map.get(i, j) & MazeMap.DOWN) == 0) {
-					if(!(i==xsize-1&&j==xsize-1)){
-					lineRenderer.line((i) * w / xsize, -(j + 1) * h / ysize,
-							(i + 1) * w / xsize, -(j + 1) * h / ysize);
+					if (!(i == xsize - 1 && j == xsize - 1)) {
+						lineRenderer.line((i) * w / xsize,
+								-(j + 1) * h / ysize, (i + 1) * w / xsize,
+								-(j + 1) * h / ysize);
 					}
 				}
 			}
@@ -162,7 +208,7 @@ public class MyGdxGame implements ApplicationListener {
 		squareRenderer.filledRect((map.current.x) * w / xsize,
 				-(map.current.y + 1) * h / ysize, w / xsize, h / ysize);
 
-		lineRenderer.line(w/xsize, 0, w, 0);
+		lineRenderer.line(w / xsize, 0, w, 0);
 		lineRenderer.line(0, 0, 0, -h);
 		lineRenderer.end();
 		squareRenderer.end();
@@ -176,9 +222,9 @@ public class MyGdxGame implements ApplicationListener {
 	public void resize(int width, int height) {
 		w = Gdx.graphics.getWidth() * 0.6f;
 		h = Gdx.graphics.getHeight();
-		camera = new OrthographicCamera(width+10, height+10);
+		camera = new OrthographicCamera(width + 10, height + 10);
 		camera.translate(width / 2, -height / 2);
-		table.setPosition(width*0.82f, height);
+		table.setPosition(width * 0.82f, height);
 	}
 
 	@Override
