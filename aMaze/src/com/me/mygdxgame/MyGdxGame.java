@@ -121,7 +121,9 @@ public class MyGdxGame implements ApplicationListener {
 		stepButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				algo.update();
+				for (int i = 0; i < stepsPerFrame; i++) {
+					algo.update();
+				}
 				return false;
 			}
 		});
@@ -161,9 +163,10 @@ public class MyGdxGame implements ApplicationListener {
 				return false;
 			}
 		});
+		table.row();
 		solveButton = new TextButton("Solve", skin);
-		table.add(clearButton);
-		clearButton.addListener(new InputListener() {
+		table.add(solveButton);
+		solveButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				map = new MazeMap(xsize, ysize);
@@ -171,18 +174,19 @@ public class MyGdxGame implements ApplicationListener {
 				return false;
 			}
 		});
-		fastButton = new TextButton("+", skin);
-		table.add(clearButton);
-		clearButton.addListener(new InputListener() {
+		table.row();
+		fastButton = new TextButton("+speed", skin);
+		table.add(fastButton);
+		fastButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				stepsPerFrame++;
 				return false;
 			}
 		});
-		slowButton = new TextButton("-", skin);
-		table.add(clearButton);
-		clearButton.addListener(new InputListener() {
+		slowButton = new TextButton("-speed", skin);
+		table.add(slowButton);
+		slowButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				if (stepsPerFrame > 0)
@@ -219,7 +223,7 @@ public class MyGdxGame implements ApplicationListener {
 		lineRenderer.setColor(0, 0, 0, 1);
 		squareRenderer.setProjectionMatrix(camera.combined);
 		squareRenderer.begin(ShapeType.FilledRectangle);
-		squareRenderer.setColor(1, 0, 0, 0.2f);
+		squareRenderer.setColor(0, 1, 0, 0.2f);
 
 		for (int i = 0; i < xsize; i++) {
 			for (int j = 0; j < ysize; j++) {
@@ -234,8 +238,16 @@ public class MyGdxGame implements ApplicationListener {
 								-(j + 1) * h / ysize);
 					}
 				}
+				if ((map.get(i, j) & MazeMap.GREEN) == 0) {
+					if (!(i == xsize - 1 && j == xsize - 1)) {
+						squareRenderer.filledRect((map.current.x) * w / xsize,
+								-(map.current.y + 1) * h / ysize, w / xsize, h
+										/ ysize);
+					}
+				}
 			}
 		}
+		squareRenderer.setColor(1, 0, 0, 0.2f);
 		squareRenderer.filledRect((map.current.x) * w / xsize,
 				-(map.current.y + 1) * h / ysize, w / xsize, h / ysize);
 
