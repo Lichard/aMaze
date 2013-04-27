@@ -38,7 +38,10 @@ public class MazeMap {
 	}
 
 	public void remove(int x, int y, int a) {
-
+		int dir = map.get(x).get(y);
+		if ((dir & a) == 1) { // Set main Cell
+			map.get(x).set(y, dir - a);
+		}
 	}
 
 	public void set(int x, int y, int a) {

@@ -12,8 +12,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 public class MyGdxGame implements ApplicationListener {
 	private float w, h;
@@ -36,6 +33,7 @@ public class MyGdxGame implements ApplicationListener {
 	private Table table;
 	private boolean run;
 	private int algoSelection;
+	private int stepsPerFrame;
 
 	private Label fpsLabel;
 	private Button primButton;
@@ -43,6 +41,9 @@ public class MyGdxGame implements ApplicationListener {
 	private Button startButton;
 	private Button stepButton;
 	private Button clearButton;
+	private Button solveButton;
+	private Button fastButton;
+	private Button slowButton;
 
 	private TextButtonStyle tStyle;
 	private LabelStyle lStyle;
@@ -70,6 +71,7 @@ public class MyGdxGame implements ApplicationListener {
 		run = false;
 		setSize(50, 50);
 		algoSelection = 1;
+		stepsPerFrame = 1;
 		setAlgorithm(algoSelection);// 1 is recursive, 2 is prim
 
 		stage = new Stage();
@@ -159,6 +161,35 @@ public class MyGdxGame implements ApplicationListener {
 				return false;
 			}
 		});
+		solveButton = new TextButton("Solve", skin);
+		table.add(clearButton);
+		clearButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				map = new MazeMap(xsize, ysize);
+				setAlgorithm(algoSelection);
+				return false;
+			}
+		});
+		fastButton = new TextButton("+", skin);
+		table.add(clearButton);
+		clearButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				stepsPerFrame++;
+				return false;
+			}
+		});
+		slowButton = new TextButton("-", skin);
+		table.add(clearButton);
+		clearButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				if (stepsPerFrame > 0)
+					stepsPerFrame--;
+				return false;
+			}
+		});
 
 		lineRenderer = new ShapeRenderer();
 		squareRenderer = new ShapeRenderer();
@@ -173,7 +204,7 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void render() {
 		if (run) {
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < stepsPerFrame; i++) {
 				run = algo.update();
 			}
 		}
