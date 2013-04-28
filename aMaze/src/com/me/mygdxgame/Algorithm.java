@@ -15,73 +15,73 @@ public abstract class Algorithm {
 	protected int endX;
 	protected int endY;
 	protected Random rand = new Random();
-	
+
 	protected MazeMap map;
-	
+
 	protected Cell currentCell;
 	protected Cell solveCell;
-	
+
 	protected Stack<Cell> solveStack = new Stack<Cell>();
 	protected boolean[][] solverVisit;
-	
-	public Algorithm(MazeMap map){
+
+	public Algorithm(MazeMap map) {
 		startX = startY = 0;
 		width = map.xsize;
 		height = map.ysize;
 		this.map = map;
-		endX = width-1;
-		endY = height-1;
+		endX = width - 1;
+		endY = height - 1;
 		solverVisit = new boolean[width][height];
-		for(int i = 0; i < width; i++){
-			for(int j = 0; j < height; j++){
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				solverVisit[i][j] = false;
 			}
 		}
 		solverVisit[startX][startY] = true;
-		
+
 		solveCell = new Cell(startX, startY);
 		Cell initial = new Cell(startX, startY);
 		solveStack.push(initial);
 	}
-	
+
 	public abstract boolean update();
-	
-	public boolean solve(){
-		if(solveCell.x != endX && solveCell.y != endY){
+
+	public boolean solve() {
+		if (!(solveCell.x == endX && solveCell.y == endY)) {
 			int[] paths = new int[4];
 			int pathCount = 0;
-			
-			for(int i = 0; i < 4; i++){
-				switch (i){
+
+			for (int i = 0; i < 4; i++) {
+				switch (i) {
 				case UP:
-					if(map.has(solveCell.x, solveCell.y, MazeMap.UP) &&
-							!solverVisit[solveCell.x][solveCell.y-1]){
+					if (map.has(solveCell.x, solveCell.y, MazeMap.UP)
+							&& !solverVisit[solveCell.x][solveCell.y - 1]) {
 						paths[pathCount++] = i;
 					}
 					break;
 				case RIGHT:
-					if(map.has(solveCell.x, solveCell.y, MazeMap.RIGHT) &&
-							!solverVisit[solveCell.x+1][solveCell.y]){
+					if (map.has(solveCell.x, solveCell.y, MazeMap.RIGHT)
+							&& !solverVisit[solveCell.x + 1][solveCell.y]) {
 						paths[pathCount++] = i;
 					}
 					break;
 				case DOWN:
-					if(map.has(solveCell.x, solveCell.y, MazeMap.DOWN) &&
-							!solverVisit[solveCell.x][solveCell.y+1]){
+					if (map.has(solveCell.x, solveCell.y, MazeMap.DOWN)
+							&& !solverVisit[solveCell.x][solveCell.y + 1]) {
 						paths[pathCount++] = i;
 					}
 					break;
 				case LEFT:
-					if(map.has(solveCell.x, solveCell.y, MazeMap.LEFT) &&
-							!solverVisit[solveCell.x-1][solveCell.y]){
+					if (map.has(solveCell.x, solveCell.y, MazeMap.LEFT)
+							&& !solverVisit[solveCell.x - 1][solveCell.y]) {
 						paths[pathCount++] = i;
 					}
 					break;
 				}
 			}
-			
-			if(pathCount > 0){
-				switch(paths[rand.nextInt(pathCount)]){
+
+			if (pathCount > 0) {
+				switch (paths[rand.nextInt(pathCount)]) {
 				case UP:
 					map.set(solveCell.x, solveCell.y, MazeMap.GREEN);
 					solveCell.y--;
@@ -111,19 +111,16 @@ public abstract class Algorithm {
 					solverVisit[solveCell.x][solveCell.y] = true;
 					break;
 				}
-			}
-			else{
+			} else {
 				map.remove(solveCell.x, solveCell.y, MazeMap.GREEN);
-				if(solveStack.isEmpty()){
+				if (solveStack.isEmpty()) {
 					return false;
-				}
-				else{
+				} else {
 					solveCell = solveStack.pop();
 				}
 			}
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
@@ -131,6 +128,5 @@ public abstract class Algorithm {
 	public MazeMap getMaze() {
 		return map;
 	}
-	
 
 }

@@ -156,7 +156,10 @@ public class MyGdxGame implements ApplicationListener {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				for (int i = 0; i < stepsPerFrame; i++) {
-					algo.update();
+					boolean bool = algo.update();
+					if (!bool)
+						algo.solve();
+
 				}
 				return false;
 			}
@@ -203,7 +206,7 @@ public class MyGdxGame implements ApplicationListener {
 		solveButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				solve = true;
+				solve = !solve;
 				return false;
 			}
 		});
