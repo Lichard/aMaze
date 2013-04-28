@@ -28,6 +28,7 @@ public abstract class Algorithm {
 		startX = startY = 0;
 		width = map.xsize;
 		height = map.ysize;
+		this.map = map;
 		endX = width-1;
 		endY = height-1;
 		solverVisit = new boolean[width][height];
@@ -53,25 +54,25 @@ public abstract class Algorithm {
 			for(int i = 0; i < 4; i++){
 				switch (i){
 				case UP:
-					if(!map.has(solveCell.x, solveCell.y, UP) &&
+					if(map.has(solveCell.x, solveCell.y, UP) &&
 							!solverVisit[solveCell.x][solveCell.y-1]){
 						paths[pathCount++] = i;
 					}
 					break;
 				case RIGHT:
-					if(!map.has(solveCell.x, solveCell.y, RIGHT) &&
+					if(map.has(solveCell.x, solveCell.y, RIGHT) &&
 							!solverVisit[solveCell.x+1][solveCell.y]){
 						paths[pathCount++] = i;
 					}
 					break;
 				case DOWN:
-					if(!map.has(solveCell.x, solveCell.y, DOWN) &&
+					if(map.has(solveCell.x, solveCell.y, DOWN) &&
 							!solverVisit[solveCell.x][solveCell.y+1]){
 						paths[pathCount++] = i;
 					}
 					break;
 				case LEFT:
-					if(!map.has(solveCell.x, solveCell.y, LEFT) &&
+					if(map.has(solveCell.x, solveCell.y, LEFT) &&
 							!solverVisit[solveCell.x-1][solveCell.y]){
 						paths[pathCount++] = i;
 					}
