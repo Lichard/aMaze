@@ -34,43 +34,46 @@ public class MazeMap {
 	}
 
 	public boolean has(int x, int y, int a) {
-		return ((this.get(x, y) & a) == 1);
+		int has;
+		int dir = map.get(x).get(y);
+		has = dir & a;
+		return has != 0;
 	}
 
 	public void remove(int x, int y, int a) {
 		int dir = map.get(x).get(y);
-		if ((dir & a) == 1) { // Set main Cell
+		if ((dir & a) != 0) { // Set main Cell
 			map.get(x).set(y, dir - a);
 		}
 	}
 
 	public void set(int x, int y, int a) {
 		int dir = map.get(x).get(y);
-		if ((dir & a) != 1) { // Set main Cell
+		if ((dir & a) == 0) { // Set main Cell
 			map.get(x).set(y, dir + a);
 		}
 		// --------Set corresponding adjacent cell
 		if (a == UP) {
 			dir = map.get(x).get(y - 1);
-			if ((dir & DOWN) != 1) {
+			if ((dir & DOWN) == 0) {
 				map.get(x).set(y - 1, dir + DOWN);
 			}
 		}
 		if (a == DOWN) {
 			dir = map.get(x).get(y + 1);
-			if ((dir & UP) != 1) {
+			if ((dir & UP) == 0) {
 				map.get(x).set(y + 1, dir + UP);
 			}
 		}
 		if (a == LEFT) {
 			dir = map.get(x - 1).get(y);
-			if ((dir & RIGHT) != 1) {
+			if ((dir & RIGHT) == 0) {
 				map.get(x - 1).set(y, dir + RIGHT);
 			}
 		}
 		if (a == RIGHT) {
 			dir = map.get(x + 1).get(y);
-			if ((dir & LEFT) != 1) {
+			if ((dir & LEFT) == 0) {
 				map.get(x + 1).set(y, dir + LEFT);
 			}
 		}

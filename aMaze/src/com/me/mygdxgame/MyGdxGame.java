@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -16,10 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class MyGdxGame implements ApplicationListener {
 	private float w, h;
@@ -45,9 +48,12 @@ public class MyGdxGame implements ApplicationListener {
 	private Button solveButton;
 	private Button fastButton;
 	private Button slowButton;
+	private TextField sizeBox;
+	private Button sizeButton;
 
 	private TextButtonStyle tStyle;
 	private LabelStyle lStyle;
+	private TextFieldStyle tfStyle;
 	private Skin skin;
 
 	public void setSize(int x, int y) {
@@ -70,7 +76,7 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void create() {
 		run = solve = false;
-		setSize(50, 50);
+		setSize(10, 10);
 		algoSelection = 1;
 		stepsPerFrame = 1;
 		setAlgorithm(algoSelection);// 1 is recursive, 2 is prim
@@ -92,17 +98,44 @@ public class MyGdxGame implements ApplicationListener {
 		skin.add("white", new Texture(pixmap));
 		skin.add("default", new BitmapFont());
 		tStyle = new TextButtonStyle();
+		tfStyle = new TextFieldStyle(new BitmapFont(), Color.BLACK,
+				skin.newDrawable("white", Color.BLUE), skin.newDrawable(
+						"white", Color.BLUE), skin.newDrawable("white",
+						Color.GRAY));
+
 		tStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
 		tStyle.down = skin.newDrawable("white", Color.BLUE);
 		tStyle.font = skin.getFont("default");
 		skin.add("default", tStyle);
 		lStyle = new LabelStyle(new BitmapFont(), Color.BLACK);
 		skin.add("default", lStyle);
+		skin.add("default", tfStyle);
+
+		sizeBox = new TextField("", skin);
+		sizeBox.setSize(100, 30);
+
+		sizeButton = new TextButton("Set Size", skin);
+		sizeButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				xsize = ysize = Integer.getInteger(sizeBox.getMessageText())
+						.intValue();
+				map = new MazeMap(xsize, ysize);
+				return false;
+			}
+		});
+		table.setSkin(skin);
+		table.add("Size:");
+		table.add(sizeBox);
+		table.add(sizeButton);
+		table.row();
+
 		fpsLabel = new Label("fps:", skin);
 		table.add(fpsLabel);
 		table.row();
 
 		// -------------------------BUTTONS--------------------------------
+
 		startButton = new TextButton("Run", skin);
 		table.add(startButton);
 		startButton.addListener(new ChangeListener() {
@@ -143,7 +176,7 @@ public class MyGdxGame implements ApplicationListener {
 		table.row();
 
 		primButton = new TextButton("Prim's Algorithm", skin);
-		recursiveButton = new TextButton("Recursive Backtracker", skin);
+		recursiveButton = new TextButton("Backtracker", skin);
 		table.add(primButton);
 		table.add(recursiveButton);
 		primButton.addListener(new InputListener() {
@@ -240,12 +273,10 @@ public class MyGdxGame implements ApplicationListener {
 								-(j + 1) * h / ysize);
 					}
 				}
-				if ((map.get(i, j) & MazeMap.GREEN) == 0) {
-					if (!(i == xsize - 1 && j == xsize - 1)) {
-						squareRenderer.filledRect((map.current.x) * w / xsize,
-								-(map.current.y + 1) * h / ysize, w / xsize, h
-										/ ysize);
-					}
+				if ((map.get(i, j) & MazeMap.GREEN) != 0) {
+					squareRenderer.filledRect((i) * w / xsize, -(j + 1) * h
+							/ ysize, w / xsize, h / ysize);
+
 				}
 			}
 		}

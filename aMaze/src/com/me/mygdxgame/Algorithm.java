@@ -54,25 +54,25 @@ public abstract class Algorithm {
 			for(int i = 0; i < 4; i++){
 				switch (i){
 				case UP:
-					if(map.has(solveCell.x, solveCell.y, UP) &&
+					if(map.has(solveCell.x, solveCell.y, MazeMap.UP) &&
 							!solverVisit[solveCell.x][solveCell.y-1]){
 						paths[pathCount++] = i;
 					}
 					break;
 				case RIGHT:
-					if(map.has(solveCell.x, solveCell.y, RIGHT) &&
+					if(map.has(solveCell.x, solveCell.y, MazeMap.RIGHT) &&
 							!solverVisit[solveCell.x+1][solveCell.y]){
 						paths[pathCount++] = i;
 					}
 					break;
 				case DOWN:
-					if(map.has(solveCell.x, solveCell.y, DOWN) &&
+					if(map.has(solveCell.x, solveCell.y, MazeMap.DOWN) &&
 							!solverVisit[solveCell.x][solveCell.y+1]){
 						paths[pathCount++] = i;
 					}
 					break;
 				case LEFT:
-					if(map.has(solveCell.x, solveCell.y, LEFT) &&
+					if(map.has(solveCell.x, solveCell.y, MazeMap.LEFT) &&
 							!solverVisit[solveCell.x-1][solveCell.y]){
 						paths[pathCount++] = i;
 					}
