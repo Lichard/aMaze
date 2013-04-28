@@ -114,7 +114,12 @@ public abstract class Algorithm {
 			}
 			else{
 				map.remove(solveCell.x, solveCell.y, MazeMap.GREEN);
-				solveCell = solveStack.pop();
+				if(solveStack.isEmpty()){
+					return false;
+				}
+				else{
+					solveCell = solveStack.pop();
+				}
 			}
 			return true;
 		}
