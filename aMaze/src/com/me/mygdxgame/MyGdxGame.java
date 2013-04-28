@@ -207,12 +207,10 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void render() {
-		if (run) {
-			for (int i = 0; i < stepsPerFrame; i++) {
+		for (int i = 0; i < stepsPerFrame; i++) {
+			if (run) {
 				run = algo.update();
-			}
-		} else if (solve) {
-			for (int i = 0; i < stepsPerFrame; i++) {
+			} else if (solve) {
 				solve = algo.solve();
 			}
 		}
