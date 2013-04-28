@@ -32,6 +32,7 @@ public class MyGdxGame implements ApplicationListener {
 	private Stage stage;
 	private Table table;
 	private boolean run;
+	private boolean solve;
 	private int algoSelection;
 	private int stepsPerFrame;
 
@@ -68,7 +69,7 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void create() {
-		run = false;
+		run = solve = false;
 		setSize(50, 50);
 		algoSelection = 1;
 		stepsPerFrame = 1;
@@ -169,8 +170,7 @@ public class MyGdxGame implements ApplicationListener {
 		solveButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				map = new MazeMap(xsize, ysize);
-				setAlgorithm(algoSelection);
+				solve = true;
 				return false;
 			}
 		});
@@ -210,6 +210,10 @@ public class MyGdxGame implements ApplicationListener {
 		if (run) {
 			for (int i = 0; i < stepsPerFrame; i++) {
 				run = algo.update();
+			}
+		} else if (solve) {
+			for (int i = 0; i < stepsPerFrame; i++) {
+				solve = algo.solve();
 			}
 		}
 		Gdx.gl.glClearColor(1, 1, 1, 1);
