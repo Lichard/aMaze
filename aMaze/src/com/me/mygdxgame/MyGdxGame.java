@@ -118,9 +118,9 @@ public class MyGdxGame implements ApplicationListener {
 		sizeButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				xsize = ysize = Integer.getInteger(sizeBox.getMessageText())
-						.intValue();
+				xsize = ysize = Integer.parseInt(sizeBox.getText());
 				map = new MazeMap(xsize, ysize);
+				setAlgorithm(algoSelection);
 				return false;
 			}
 		});
