@@ -216,7 +216,7 @@ public class MyGdxGame implements ApplicationListener {
 		fastButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				stepsPerFrame++;
+				stepsPerFrame *= 2;
 				return false;
 			}
 		});
@@ -225,8 +225,8 @@ public class MyGdxGame implements ApplicationListener {
 		slowButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				if (stepsPerFrame > 0)
-					stepsPerFrame--;
+				if (stepsPerFrame > 1)
+					stepsPerFrame /= 2;
 				return false;
 			}
 		});
@@ -305,7 +305,8 @@ public class MyGdxGame implements ApplicationListener {
 		h = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera(width + 10, height + 10);
 		camera.translate(width / 2, -height / 2);
-		table.setPosition(width * 0.82f, height);
+		stage.setViewport(width, height, false);
+		table.setPosition(width * 0.8f, height);
 	}
 
 	@Override
