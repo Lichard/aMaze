@@ -12,9 +12,6 @@ public class MazeMap {
 	public static final int DOWN = 4;
 	public static final int LEFT = 8;
 	public static final int GREEN = 16;
-	public static final int IN = 32;// YELLOW
-	public static final int FRONTIER = 64;// ORANGE
-	public static final int OUT = 128;// GREY
 
 	MazeMap(int x, int y) {
 		xsize = x;

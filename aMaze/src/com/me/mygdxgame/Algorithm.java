@@ -48,6 +48,8 @@ public abstract class Algorithm {
 
 	public boolean solve() {
 		if (!(solveCell.x == endX && solveCell.y == endY)) {
+			solverVisit[solveCell.x][solveCell.y] = true;
+
 			int[] paths = new int[4];
 			int pathCount = 0;
 
@@ -81,46 +83,33 @@ public abstract class Algorithm {
 			}
 
 			if (pathCount > 0) {
+				solveStack.push(new Cell(solveCell.x, solveCell.y));
 				switch (paths[rand.nextInt(pathCount)]) {
 				case UP:
-					map.set(solveCell.x, solveCell.y, MazeMap.GREEN);
 					solveCell.y--;
-					Cell nextCellUp = new Cell(solveCell.x, solveCell.y);
-					solveStack.push(nextCellUp);
-					solverVisit[solveCell.x][solveCell.y] = true;
 					break;
 				case RIGHT:
-					map.set(solveCell.x, solveCell.y, MazeMap.GREEN);
 					solveCell.x++;
-					Cell nextCellRight = new Cell(solveCell.x, solveCell.y);
-					solveStack.push(nextCellRight);
-					solverVisit[solveCell.x][solveCell.y] = true;
 					break;
 				case DOWN:
-					map.set(solveCell.x, solveCell.y, MazeMap.GREEN);
 					solveCell.y++;
-					Cell nextCellDown = new Cell(solveCell.x, solveCell.y);
-					solveStack.push(nextCellDown);
-					solverVisit[solveCell.x][solveCell.y] = true;
 					break;
 				case LEFT:
-					map.set(solveCell.x, solveCell.y, MazeMap.GREEN);
 					solveCell.x--;
-					Cell nextCellLeft = new Cell(solveCell.x, solveCell.y);
-					solveStack.push(nextCellLeft);
-					solverVisit[solveCell.x][solveCell.y] = true;
 					break;
 				}
+				map.set(solveCell.x, solveCell.y, MazeMap.GREEN);
 			} else {
-				map.remove(solveCell.x, solveCell.y, MazeMap.GREEN);
 				if (solveStack.isEmpty()) {
 					return false;
 				} else {
+					map.remove(solveCell.x, solveCell.y, MazeMap.GREEN);
 					solveCell = solveStack.pop();
 				}
 			}
 			return true;
 		} else {
+			map.set(solveCell.x, solveCell.y, MazeMap.GREEN);
 			return false;
 		}
 	}

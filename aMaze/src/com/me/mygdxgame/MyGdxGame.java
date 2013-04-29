@@ -233,7 +233,7 @@ public class MyGdxGame implements ApplicationListener {
 
 		lineRenderer = new ShapeRenderer();
 		squareRenderer = new ShapeRenderer();
-		Gdx.gl10.glLineWidth(1);
+		Gdx.gl10.glLineWidth(2);
 	}
 
 	@Override
@@ -256,15 +256,25 @@ public class MyGdxGame implements ApplicationListener {
 		camera.apply(Gdx.gl10);
 		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond());
 
+		squareRenderer.setProjectionMatrix(camera.combined);
+		squareRenderer.begin(ShapeType.FilledRectangle);
+
+		squareRenderer.setColor(1, 0, 0, 0.2f);
+		squareRenderer.filledRect((map.current.x) * w / xsize + 1,
+				-(map.current.y + 1) * h / ysize + 1, w / xsize - 2, h / ysize
+						- 2);
+		squareRenderer.setColor(0, 1, 0, 0.5f);
+
 		lineRenderer.setProjectionMatrix(camera.combined);
 		lineRenderer.begin(ShapeType.Line);
 		lineRenderer.setColor(0, 0, 0, 1);
-		squareRenderer.setProjectionMatrix(camera.combined);
-		squareRenderer.begin(ShapeType.FilledRectangle);
-		squareRenderer.setColor(0, 1, 0, 0.2f);
 
 		for (int i = 0; i < xsize; i++) {
 			for (int j = 0; j < ysize; j++) {
+				if ((map.get(i, j) & MazeMap.GREEN) != 0) {
+					squareRenderer.filledRect((i) * w / xsize + 1, -(j + 1) * h
+							/ ysize + 1, w / xsize - 2, h / ysize - 2);
+				}
 				if ((map.get(i, j) & MazeMap.RIGHT) == 0) {
 					lineRenderer.line((i + 1) * w / xsize, -j * h / ysize,
 							(i + 1) * w / xsize, -(j + 1) * h / ysize);
@@ -276,16 +286,8 @@ public class MyGdxGame implements ApplicationListener {
 								-(j + 1) * h / ysize);
 					}
 				}
-				if ((map.get(i, j) & MazeMap.GREEN) != 0) {
-					squareRenderer.filledRect((i) * w / xsize, -(j + 1) * h
-							/ ysize, w / xsize, h / ysize);
-
-				}
 			}
 		}
-		squareRenderer.setColor(1, 0, 0, 0.2f);
-		squareRenderer.filledRect((map.current.x) * w / xsize,
-				-(map.current.y + 1) * h / ysize, w / xsize, h / ysize);
 
 		lineRenderer.line(w / xsize, 0, w, 0);
 		lineRenderer.line(0, 0, 0, -h);
